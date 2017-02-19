@@ -1,16 +1,24 @@
 <resources>
-    <string name="app_name">FilesURload</string>
+    <string name="app_name">Administración de trámites</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Nombre de usuario</string>
+    <string name="prompt_username">Nombre de usuario</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="error_invalid_email">Nombre de usuario erróneo</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">Contraseña errónea</string>
+    <string name="error_incorrect_password">Datos erróneos</string>
     <string name="error_field_required">Esta información es necesaria</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_main">Administración de trámites</string>
+    <string name="username">Default user</string>
+    <string name="usernamemail">Default email</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Opciones</string>
 </resources>
