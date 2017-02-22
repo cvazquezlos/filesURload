@@ -2,7 +2,7 @@
 
 <img src="http://i65.tinypic.com/14xzeo9.png">
 
-Travis here
+[![Build Status](https://travis-ci.org/cvazquezlos/filesURload.svg?branch=master)](https://travis-ci.org/cvazquezlos/filesURload)
 
 ## Description  
 
