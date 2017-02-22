@@ -362,7 +362,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (InterruptedException e) {
                 return false;
             }
-
             if (DUMMY_CREDENTIALS[0].equals(mEmail)) {
                 // Account exists, return true if the password matches.
                 return DUMMY_CREDENTIALS[1].equals(mPassword);
@@ -379,6 +378,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Intent main = new Intent(LoginActivity.this, MainActivity.class);
                 main.putExtra("arg", DUMMY_CREDENTIALS[0] + " " + DUMMY_CREDENTIALS[1]);
                 LoginActivity.this.startActivity(main);
+                try {
+                    LoginActivity.this.finalize();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
