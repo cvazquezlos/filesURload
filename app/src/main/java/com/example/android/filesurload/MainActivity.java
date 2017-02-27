@@ -11,15 +11,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import static com.example.android.filesurload.R.id.drawer_layout;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String[] DUMMY_CREDENTIALS;
+    LinearLayout activityMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -86,25 +92,28 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        RelativeLayout contentMain = (RelativeLayout) findViewById(R.id.content_main);
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_doc) {
-
+            LayoutInflater inflater = LayoutInflater.from(this);
+            View inflatedLayout = inflater.inflate(R.layout.formality_layout, null, false);
+            contentMain.addView(inflatedLayout);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_av) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.aulavirtual.urjc.es"));
             startActivity(browserIntent);
-        } else if (id == R.id.nav_manage) {
+        } //else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        /*}*/ else if (id == R.id.nav_priv) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.urjc.es/proteccion-de-datos/1016-proteccion-de-datos"));
+            startActivity(browserIntent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
