@@ -3,6 +3,7 @@ package com.example.android.filesurload;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static String[] DUMMY_CREDENTIALS;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     LinearLayout activityMain;
 
     @Override
@@ -102,7 +104,10 @@ public class MainActivity extends AppCompatActivity
             View inflatedLayout = inflater.inflate(R.layout.formality_layout, null, false);
             contentMain.addView(inflatedLayout);
         } else if (id == R.id.nav_gallery) {
-
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         } else if (id == R.id.nav_av) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.aulavirtual.urjc.es"));
             startActivity(browserIntent);
