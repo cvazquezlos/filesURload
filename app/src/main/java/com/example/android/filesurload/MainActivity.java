@@ -3,10 +3,12 @@ package com.example.android.filesurload;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,9 +18,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.example.android.filesurload.R.id.drawer_layout;
 
@@ -27,7 +33,7 @@ public class MainActivity extends AppCompatActivity
 
     private static String[] DUMMY_CREDENTIALS;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    LinearLayout activityMain;
+    private String mCurrentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +64,9 @@ public class MainActivity extends AppCompatActivity
             TextView usernameNick = (TextView) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.usernameNick);
             TextView usernameEmail = (TextView) ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0).findViewById(R.id.usernameEmail);
             usernameNick.setText(DUMMY_CREDENTIALS[0]);
-            usernameEmail.setText(DUMMY_CREDENTIALS[0]+"@alumnos.urjc.es");
-        }catch (Exception exception){}
+            usernameEmail.setText(DUMMY_CREDENTIALS[0] + "@alumnos.urjc.es");
+        } catch (Exception exception) {
+        }
     }
 
     @Override
@@ -106,14 +113,24 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
+                }
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.filesurload", photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
             }
         } else if (id == R.id.nav_av) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.aulavirtual.urjc.es"));
             startActivity(browserIntent);
         } //else if (id == R.id.nav_manage) {
 
-        /*}*/ else if (id == R.id.nav_priv) {
+        /*}*/
+        else if (id == R.id.nav_priv) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.urjc.es/proteccion-de-datos/1016-proteccion-de-datos"));
             startActivity(browserIntent);
         }
@@ -123,4 +140,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 }
