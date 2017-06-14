@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (IOException ex) {
                 }
                 if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.filesurload", photoFile);
+                    Uri photoURI = FileProvider.getUriForFile(this, "com.example.android.filesurload.fileprovider", photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                 }
